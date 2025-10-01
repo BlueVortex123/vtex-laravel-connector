@@ -3,8 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\VtexCategory;
 use Illuminate\Database\Seeder;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\VtexExportedProduct;
+use Database\Seeders\VtexExportedProductSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,6 +20,8 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
+            VtexExportedProductSeeder::class,
+            app(VtexCategoryService::class)->mapCategories()
         ]);
     }
 }

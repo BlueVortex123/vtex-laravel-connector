@@ -14,16 +14,16 @@ class BrandSeeder extends Seeder
     public function run(): void
     {
         DB::table('brands')->insert([
-            ['description' => 'Nike'],
-            ['description' => 'Adidas'],
-            ['description' => 'Puma'],
-            ['description' => 'Reebok'],
-            ['description' => 'Under Armour'],
-            ['description' => 'New Balance'],
-            ['description' => 'Asics'],
-            ['description' => 'Converse'],
-            ['description' => 'Vans'],
-            ['description' => 'Fila'],
+            ['name' => 'Nike'],
+            ['name' => 'Adidas'],
+            ['name' => 'Puma'],
+            ['name' => 'Reebok'],
+            ['name' => 'Under Armour'],
+            ['name' => 'New Balance'],
+            ['name' => 'Asics'],
+            ['name' => 'Converse'],
+            ['name' => 'Vans'],
+            ['name' => 'Fila'],
         ]);
     }
 }

@@ -86,21 +86,21 @@ class VtexFunctionsLibrary extends VtexConfig
 
 
     // Update Sku stock and inventory status with data given in body request using ID of Warehouse and Vtex Sku ID,.
-    public function exportInventory($body_data, string $vtexSkuId, string $warehouse_id)
+    public function exportInventory($body_data, string $vtexSkuId, string $warehouse_id): void
     {
         $endpoint = str_replace([':ID_SKU', ':ID_WAREHOUSE'], [$vtexSkuId, $warehouse_id], $this::ENDPOINT_UPDATE_STOCK);
         $this->submitRequest('PUT', $this->getApiUrl() . $endpoint, [RequestOptions::JSON => $body_data]);
     }
 
     // Update Sku pricing values by given data in body request and using ID of the Sku.
-    public function exportPrices($body_data, string $vtexSkuId)
+    public function exportPrices($body_data, string $vtexSkuId): void
     {
         $endpoint = str_replace(':ID_ITEM', $vtexSkuId, $this::ENDPOINT_UPDATE_PRICE);
         $this->submitRequest('PUT', 'https://api.vtex.com/' . $this->domain . $endpoint, [RequestOptions::JSON => $body_data]);
     }
 
     // Associate all sku files with all attributes from a sku to another sku by their Vtex ID.
-    public function copySkuFilesToSku(string $vtexSkuIdFrom, string $vtexSkuIdTo)
+    public function copySkuFilesToSku(string $vtexSkuIdFrom, string $vtexSkuIdTo): array
     {
         $endpoint = str_replace([':ID_SKU_FROM', ':ID_SKU_TO'], [$vtexSkuIdFrom, $vtexSkuIdTo], $this::ENDPOINT_COPY_SKU_FILE_TO_SKU);
         $request = $this->submitRequest('PUT', $this->getApiUrl() . $endpoint);
@@ -108,7 +108,7 @@ class VtexFunctionsLibrary extends VtexConfig
     }
 
     // Create or Update an group of specifications values with one or many values from body request and associate the values coresponding to given Vtex Sku ID.
-    public function exportSkuSpecifications($body_data, string $vtexSkuId)
+    public function exportSkuSpecifications($body_data, string $vtexSkuId): array
     {
         $endpoint = str_replace(':ID_SKU', $vtexSkuId, $this::ENDPOINT_ASSOCIATE_SKU_SPECIFICATIONS_BY_GNAME);
         $request = $this->submitRequest('PUT', $this->getApiUrl() . $endpoint, [RequestOptions::JSON => $body_data]);
@@ -116,14 +116,14 @@ class VtexFunctionsLibrary extends VtexConfig
     }
 
 
-    public function getCategory(string $vtexcategory_id)
+    public function getCategory(string $vtexcategory_id): array
     {
         $endpoint = str_replace(':ID_CATEGORY', $vtexcategory_id, $this::ENDPOINT_GET_CATEGORY_BY_ID);
         $response = $this->submitRequest('GET',  $this->getApiUrl() . $endpoint);
         return json_decode($response->getBody()->getContents(), true);
     }
 
-    public function updateCategory(string $vtexcategory_id, $body_data)
+    public function updateCategory(string $vtexcategory_id, $body_data): array
     {
         $endpoint = str_replace(':ID_CATEGORY', $vtexcategory_id, $this::ENDPOINT_UPDATE_CATEGORY_BY_ID);
         $request = $this->submitRequest('PUT', $this->getApiUrl() . $endpoint, [RequestOptions::JSON => $body_data]);
