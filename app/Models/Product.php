@@ -58,4 +58,11 @@ class Product extends Model
             get: fn() => $this->toArray()['attributes']['size'] ?? null
         );
     }
+
+    protected function vtexSkuId(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->vtexExportedProduct?->vtex_sku_id
+        );
+    }
 }

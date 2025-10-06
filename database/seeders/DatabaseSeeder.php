@@ -8,6 +8,7 @@ use Database\Seeders\ProductSeeder;
 use Database\Seeders\CategorySeeder;
 use App\Services\VtexCategoryService;
 use Database\Seeders\VtexExportedProductSeeder;
+use Database\Seeders\VtexSkuSpecificationValuesSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,6 +24,9 @@ class DatabaseSeeder extends Seeder
             VtexExportedProductSeeder::class,
             app(VtexCategoryService::class)->mapCategories(),
             app(VtexCategoryService::class)->fillIdsToCategories(),
+            VtexSpecificationGroupSeeder::class,
+            VtexSkuSpecificationsSeeder::class,
+            VtexSkuSpecificationValuesSeeder::class,
         ]);
     }
 }
