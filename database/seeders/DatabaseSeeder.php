@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\VtexCategory;
 use Illuminate\Database\Seeder;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\VtexExportedProduct;
+use Database\Seeders\BrandSeeder;
+use Database\Seeders\ProductSeeder;
+use Database\Seeders\CategorySeeder;
+use App\Services\VtexCategoryService;
 use Database\Seeders\VtexExportedProductSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             ProductSeeder::class,
             VtexExportedProductSeeder::class,
-            app(VtexCategoryService::class)->mapCategories()
+            app(VtexCategoryService::class)->mapCategories(),
+            app(VtexCategoryService::class)->fillIdsToCategories(),
         ]);
     }
 }

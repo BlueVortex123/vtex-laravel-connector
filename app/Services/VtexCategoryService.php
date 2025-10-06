@@ -24,7 +24,7 @@ class VtexCategoryService
     }
 
     // Store category of a product in database
-    public static function categoryMapCreate(string $category_string): void
+    protected static function categoryMapCreate(string $category_string): void
     {
         DB::transaction(function () use ($category_string) {
             $category_array = array_filter(explode('>', $category_string));
@@ -58,12 +58,23 @@ class VtexCategoryService
     }
 
     // Create NoBrand Category
-    public static function createUncategorized(): VtexCategory
+    protected static function createUncategorized(): VtexCategory
     {
         return VtexCategory::firstOrCreate([
             'name' => 'Uncategorized',
             'slug' => 'Uncategorized',
             'parent_id' => null
         ]);
+    }
+
+    public function fillIdsToCategories(): void
+    {
+        // Assign sequential vtex_category_id to categories where it's null
+        $lastId = VtexCategory::max('vtex_category_id') ?? 0;
+        $categories = VtexCategory::whereNull('vtex_category_id')->orderBy('id')->get();
+        foreach ($categories as $index => $category) {
+            $category->vtex_category_id = $lastId + $index + 1;
+            $category->save();
+        }
     }
 }
