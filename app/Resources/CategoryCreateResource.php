@@ -2,50 +2,43 @@
 
 namespace App\Resources;
 
+use App\Models\VtexCategory;
 use Spatie\LaravelData\Data;
 
-class ProductVariationCreateResource extends Data
+class CategoryCreateResource extends Data
 {
     public function __construct(
         public string $name,
-        public ?int $fatherCategoryId = null,
-        public string $description = '',
-        public ?string $adWordsRemarketingCode = null,
-        public ?string $lomadeeCampaignCode = null,
-        public bool $showInStoreFront = true,
-        public bool $isActive = true,
-        public bool $activeStoreFrontLink = true,
-        public bool $showBrandFilter = true,
-        public ?int $score = null,
+        public ?int $fatherCategoryId,
     ) {}
 
     /**
-     * @return array{
-     *     Name: string,
-     *     FatherCategoryId: int|null,
-     *     Description: string,
-     *     AdWordsRemarketingCode: string|null,
-     *     LomadeeCampaignCode: string|null,
-     *     ShowInStoreFront: bool,
-     *     IsActive: bool,
-     *     ActiveStoreFrontLink: bool,
-     *     ShowBrandFilter: bool,
-     *     Score: int|null
-     * }
+     * Create a resource from a VtexCategory model.
+     */
+    public static function fromModel(VtexCategory $category): self
+    {
+        return new self(
+            name: $category->name,
+            fatherCategoryId: $category->parent->vtex_category_id,
+        );
+    }
+
+    /**
+     * Export resource fields as array.
      */
     public function toArray(): array
     {
         return [
             'Name' => $this->name,
             'FatherCategoryId' => $this->fatherCategoryId,
-            'Description' => $this->description,
-            'AdWordsRemarketingCode' => $this->adWordsRemarketingCode,
-            'LomadeeCampaignCode' => $this->lomadeeCampaignCode,
-            'ShowInStoreFront' => $this->showInStoreFront,
-            'IsActive' => $this->isActive,
-            'ActiveStoreFrontLink' => $this->activeStoreFrontLink,
-            'ShowBrandFilter' => $this->showBrandFilter,
-            'Score' => $this->score,
+            'Description' => '',
+            'AdWordsRemarketingCode' => null,
+            'LomadeeCampaignCode' => null,
+            'ShowInStoreFront' => true,
+            'IsActive' => true,
+            'ActiveStoreFrontLink' => true,
+            'ShowBrandFilter' => true,
+            'Score' => null,
         ];
     }
 }

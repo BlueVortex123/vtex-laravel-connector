@@ -8,40 +8,41 @@ use Spatie\LaravelData\Data;
 class ProductCreateResource extends Data
 {
     public function __construct(
-        public string $Name,
-        public int $CategoryId,
-        public string $BrandName,
-        public string $RefId,
-        public string $LinkId,
-        public int $IsVisible,
-        public int $IsActive,
-        public string $TaxCode,
-        public bool $ShowWithoutStock,
-        public int $Score
+        public string $name,
+        public int $categoryId,
+        public string $brandName,
+        public string $refId,
+        public string $linkId,
     ) {}
 
     /**
      * @param object $source
      * @return self
      */
-    public static function fromSource(Product $storedProduct): self
+    public static function fromModel(Product $storedProduct): self
     {
-        $brandName = $storedProduct->Brands ?? $storedProduct->{'Product Designer'} ?? '';
-        if ($brandName === '') {
-            $brandName = 'NoBrand';
-        }
-
         return new self(
-            Name: $storedProduct->Title,
-            CategoryId: $storedProduct->get_vtexCategory()->vtex_category_id ?? 1,
-            BrandName: ucwords(strtolower(remove_accents(html_entity_decode($brandName)))),
-            RefId: $storedProduct->sku,
-            LinkId: $storedProduct->slugify(),
-            IsVisible: 1,
-            IsActive: 1,
-            TaxCode: '',
-            ShowWithoutStock: false,
-            Score: 1
+            name: $storedProduct->name,
+            categoryId: $storedProduct->category->vtex_category_id ?? 1,
+            brandName: ucwords(strtolower(remove_accents(html_entity_decode($storedProduct->brand?->name)))),
+            refId: $storedProduct->sku,
+            linkId: $storedProduct->slugify(),
         );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'categoryId' => $this->categoryId,
+            'brandName' => $this->brandName,
+            'refId' => $this->refId,
+            'linkId' => $this->linkId,
+            'isVisible' => 1,
+            'isActive' => 1,
+            'taxCode' => '',
+            'showWithoutStock' => false,
+            'score' => 1,
+        ];
     }
 }
